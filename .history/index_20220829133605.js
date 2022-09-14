@@ -64,8 +64,7 @@ const tempProduct = fs.readFileSync(
   './1-node-farm/starter/templates/product.html',
   'utf-8'
 );
-const data = fs.readFileSync(
-  './1-node-farm/starter/dev-data/data.json',
+wwwwwwwwwwwwwwwwwwwwwww  './1-node-farm/starter/dev-data/data.json',
   'utf-8'
 );
 

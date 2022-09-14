@@ -1,9 +1,9 @@
-const fs = require('fs'); // fs module cho phép đọc và viết dữ liệu file hệ thống
-const http = require('http'); // http module cho phép khởi tạo server gán port, ip
-const url = require('url'); //
-const replaceTemplate = require('./modules/replaceTemplate');
+const fs = require("fs"); // fs module cho phép đọc và viết dữ liệu file hệ thống
+const http = require("http"); // http module cho phép khởi tạo server gán port, ip
+const url = require("url"); //
+const replaceTemplate = require("./modules/replaceTemplate");
 
-const slugify = require('slugify');
+const slugify = require("slugify");
 //=============================FILE===============================//
 //blocking code, synchronous
 //đọc file
@@ -16,7 +16,7 @@ const slugify = require('slugify');
 // const textOutput = `this is rewrite content: ${textInput}.\Create on ${Date.now()}`;
 // fs.writeFileSync("./1-node-farm/starter/txt/input.txt", textOutput);
 // console.log("file written!");
-
+<TODO></TODO>
 //Non-blocking, asynchronous => cải thiện tốc độ
 // fs.readFile("./1-node-farm/starter/txt/start.txt", "utf-8", (err, data1) => {
 //   fs.readFile(
@@ -53,24 +53,24 @@ const slugify = require('slugify');
 
 //đọc file
 const tempOverview = fs.readFileSync(
-  './1-node-farm/starter/templates/overview.html',
-  'utf-8'
+  "./1-node-farm/starter/templates/overview.html",
+  "utf-8"
 );
 const tempCard = fs.readFileSync(
-  './1-node-farm/starter/templates/card.html',
-  'utf-8'
+  "./1-node-farm/starter/templates/card.html",
+  "utf-8"
 );
 const tempProduct = fs.readFileSync(
-  './1-node-farm/starter/templates/product.html',
-  'utf-8'
+  "./1-node-farm/starter/templates/product.html",
+  "utf-8"
 );
 const data = fs.readFileSync(
-  './1-node-farm/starter/dev-data/data.json',
-  'utf-8'
+  "./1-node-farm/starter/dev-data/data.json",
+  "utf-8"
 );
 
 const dataObj = JSON.parse(data); // lúc này là array chứa chuỗi dữ liệu
-const slugs = dataObj.map((el) => slugify(el.productName, { lower: true }));
+const slugs = dataObj.map(el => slugify(el.productName, {lower: true}))
 console.log(slugs);
 
 //TẠO SERVER
@@ -78,19 +78,19 @@ const server = http.createServer((request, response) => {
   const { query, pathname } = url.parse(request.url, true);
 
   //OVERVIEW PAGE
-  if (pathname === '/' || pathname === '/overview') {
+  if (pathname === "/" || pathname === "/overview") {
     response.writeHead(200, {
-      'Content-type': 'text/html',
+      "Content-type": "text/html",
     });
     const cardsHTML = dataObj
       .map((ele) => replaceTemplate(tempCard, ele)) // tempCard = temp, ele = current product
-      .join('');
-    const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHTML);
+      .join("");
+    const output = tempOverview.replace("{%PRODUCT_CARDS%}", cardsHTML);
     response.end(output);
   }
 
   //PRODUCT
-  else if (pathname === '/product') {
+  else if (pathname === "/product") {
     response.writeHead(200, "Content-type: 'text/html'");
     const product = dataObj[query.id];
     const output = replaceTemplate(tempProduct, product);
@@ -99,9 +99,9 @@ const server = http.createServer((request, response) => {
   }
 
   //API
-  else if (pathname === '/api') {
+  else if (pathname === "/api") {
     response.writeHead(200, {
-      'Content-type': 'application/json', //thông báo cho browser biết đang gửi lên chuỗi json
+      "Content-type": "application/json", //thông báo cho browser biết đang gửi lên chuỗi json
     });
     response.end(data);
   }
@@ -109,15 +109,15 @@ const server = http.createServer((request, response) => {
   //NOT FOUND
   else {
     response.writeHead(404, {
-      'Content-type': 'text/html',
-      'my-own-header': 'custome header',
+      "Content-type": "text/html",
+      "my-own-header": "custome header",
     });
-    response.end('<h1>PAGE NOT FOUND</h1>');
+    response.end("<h1>PAGE NOT FOUND</h1>");
   }
 });
 
-server.listen(8000, '127.0.0.1', () => {
-  console.log('listening to requests on port 8000');
+server.listen(8000, "127.0.0.1", () => {
+  console.log("listening to requests on port 8000");
 });
 
-console.log('test');
+console.log("test");
